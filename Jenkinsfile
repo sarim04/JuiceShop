@@ -14,5 +14,14 @@ pipeline {
                 }
             }
         }
+        stage('Build'){
+            steps{
+                script{
+                    sh 'docker images -a'
+                    sh 'docker build -t JuiceShop .'
+                    sh 'docker images -a'
+                }
+            }
+        }
     }
 }
