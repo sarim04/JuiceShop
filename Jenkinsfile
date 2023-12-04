@@ -9,7 +9,7 @@ pipeline {
         stage('PWD'){
             steps{
                 sh label: "Print CWD"
-                script: 'pwd'
+                script: "pwd"
             }
         }
     }
