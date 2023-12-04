@@ -6,5 +6,11 @@ pipeline {
             echo "$GIT_BRANCH"
             }
         }
+        stage('PWD'){
+            steps{
+                sh label: "Print CWD"
+                script: 'pwd'
+            }
+        }
     }
 }
