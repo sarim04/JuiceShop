@@ -18,7 +18,7 @@ pipeline {
             steps{
                 script{
                     sh 'sudo docker images -a'
-                    sh 'sudo docker build -t JuiceShop .'
+                    sh 'sudo docker build -t juiceshop .'
                     sh 'sudo docker images -a'
                 }
             }
