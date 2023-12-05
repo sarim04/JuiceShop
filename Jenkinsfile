@@ -17,9 +17,9 @@ pipeline {
         stage('Build'){
             steps{
                 script{
-                    sh 'docker images -a'
-                    sh 'docker build -t JuiceShop .'
-                    sh 'docker images -a'
+                    sh 'sudo docker images -a'
+                    sh 'sudo docker build -t JuiceShop .'
+                    sh 'sudo docker images -a'
                 }
             }
         }
