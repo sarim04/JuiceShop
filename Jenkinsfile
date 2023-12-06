@@ -6,7 +6,7 @@ pipeline {
             echo "$GIT_BRANCH"
             }
         }
-        stage('Static-Testing'){
+        stage('Build and Static-Testing'){
             parallel{
                 stage('Snyk-Scan'){
                     steps{
@@ -15,16 +15,17 @@ pipeline {
                             }
                         }    
                     }
+                stage('Build'){
+                    steps{
+                        script{
+                            sh 'sudo docker images -a'
+                            sh 'sudo docker build -t juiceshop .'
+                            sh 'sudo docker images -a'
+                            }
+                        }
+                    }
                 }
         }
-        stage('Build'){
-            steps{
-                script{
-                    sh 'sudo docker images -a'
-                    sh 'sudo docker build -t juiceshop .'
-                    sh 'sudo docker images -a'
-                }
-            }
-        }
+
     }
 }
