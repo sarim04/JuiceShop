@@ -6,20 +6,16 @@ pipeline {
             echo "$GIT_BRANCH"
             }
         }
-        stage('PWD'){
-            steps{
-                script{
-                    sh 'pwd'
-                    sh 'ls -al'
+        stage('Static-Testing'){
+            parallel{
+                stage('Snyk-Scan'){
+                    steps{
+                        script{
+                            snykSecurity failOnError: false, failOnIssues: false, organisation: 'sarim04', projectName: 'juice-shop', snykInstallation: 'Snyk-Community', snykTokenId: 'snyk-token'
+                            }
+                        }    
+                    }
                 }
-            }
-        }
-        stage('Snyk-Scan'){
-            steps{
-                script{
-                    snykSecurity failOnError: false, failOnIssues: false, organisation: 'sarim04', projectName: 'juice-shop', snykInstallation: 'Snyk-Community', snykTokenId: 'snyk-token'
-                }
-            }
         }
         stage('Build'){
             steps{
