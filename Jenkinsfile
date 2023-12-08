@@ -15,6 +15,17 @@ pipeline {
                             }
                         }    
                     }
+                stage('Lint'){
+                    agent{
+                        docker{
+                            image "docker.io/hadolint/hadolint:v1.18.0"
+                            reuseNode true 
+                        }
+                    }
+                    script{
+                        sh label: "Lint Dockerfile", script: "hadolint Dockerfile > hadolint-results.txt"
+                    }
+                }
                 stage('Build'){
                     steps{
                         script{
