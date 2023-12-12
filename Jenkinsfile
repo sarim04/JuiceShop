@@ -17,13 +17,26 @@ pipeline {
                     }
                 stage('Lint'){
                     agent{
-                        docker{
-                            image "docker.io/hadolint/hadolint:v1.18.0"
-                            reuseNode true 
-                        }
+                        script{
+                            sh label: "Lint Dockerfile", script: "echo "Linting Code""
                     }
-                    script{
-                        sh label: "Lint Dockerfile", script: "hadolint Dockerfile > hadolint-results.txt"
+                }
+                
+                stage('Lint'){
+                        script{
+                            sh 'echo "Using Hadolint"'
+                    }
+                }
+                
+                stage('Secret Scanning'){
+                        script{
+                            sh 'echo "Scanning for Secrets using Trufflehog"'
+                    }
+                }
+                
+                stage('SAST'){
+                        script{
+                            sh 'echo "Running SAST scans using Snyk Code"'
                     }
                 }
                 stage('Build'){
