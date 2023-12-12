@@ -15,22 +15,28 @@ pipeline {
                             }
                         }    
                     }
-                stage('Lint'){
+                stage('Lint'){                    
+                    steps{
                         script{
-                            sh 'echo "Using Hadolint"'
-                    }
+                            sh 'echo "Linting the code with Hadolint"'
+                            }
+                        }
                 }
                 
                 stage('Secret Scanning'){
-                        script{
-                            sh 'echo "Scanning for Secrets using Trufflehog"'
-                    }
+                       steps{
+                            script{
+                                sh 'echo "Running Secret Scanning using Trufflehog"'
+                            }
+                        }
                 }
                 
                 stage('SAST'){
+                    steps{
                         script{
-                            sh 'echo "Running SAST scans using Snyk Code"'
-                    }
+                            sh 'echo "Running SAST Scan using Snyk Code"'
+                            }
+                        }
                 }
                 stage('Build'){
                     steps{
