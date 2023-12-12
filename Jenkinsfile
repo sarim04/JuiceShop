@@ -16,13 +16,6 @@ pipeline {
                         }    
                     }
                 stage('Lint'){
-                    agent{
-                        script{
-                            sh label: "Lint Dockerfile", script: "echo "Linting Code""
-                    }
-                }
-                
-                stage('Lint'){
                         script{
                             sh 'echo "Using Hadolint"'
                     }
