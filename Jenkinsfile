@@ -9,7 +9,7 @@ pipeline {
             echo "$GIT_BRANCH"
             }
         }
-        stage('Build and Static-Testing'){
+        stage('Static-Testing'){
             parallel{
                 stage('Snyk-Scan'){
                     steps{
@@ -41,25 +41,30 @@ pipeline {
                             }
                         }
                 }
-                stage('Build'){
-                    steps{
-                        script{
-                            sh 'sudo docker images -a'
-                            sh 'sudo docker build -t sarim04/juiceshop .'
-                            sh 'sudo docker images -a'
-                            }
-                        }
-                    }
             }
         }
-    stage('Push To Registry'){
-        steps{
-            script{
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-                sh 'docker push sarim04/juiceshop'
+    stage('Build and Push'){
+        parallel{
+            stage('Build'){
+                steps{
+                    script{
+                        sh 'sudo docker images -a'
+                        sh 'sudo docker build -t sarim04/juiceshop .'
+                        sh 'sudo docker images -a'
+                        }
+                    }
+                }
+            stage('Push'){
+                steps{
+                    script{
+                        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                        sh 'docker push sarim04/juiceshop'
+                    }
                 }
             }
         }
 
     }
+
+}
 }
