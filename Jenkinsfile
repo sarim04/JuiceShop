@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-    DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+    DOCKERHUB_CREDENTIALS = credentials('DockerHub_PAT')
       }
     stages {
         stage('Verify Branch'){
