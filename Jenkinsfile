@@ -9,7 +9,7 @@ pipeline {
             echo "$GIT_BRANCH"
             }
         }
-        stage('Static-Testing'){
+        stage('Test and Build'){
             parallel{
                 stage('Snyk-Scan'){
                     steps{
@@ -41,7 +41,16 @@ pipeline {
                             }
                         }
                 }
-            }
+                stage('Build'){
+                    steps{
+                        script{
+                            sh 'sudo docker images -a'
+                            sh 'sudo docker build -t sarim04/juiceshop .'
+                            sh 'sudo docker images -a'
+                            }
+                        }
+                    }
+                }
         }
     stage('Push'){
         steps{
