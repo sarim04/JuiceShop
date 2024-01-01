@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+    DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+      }
     stages {
         stage('Verify Branch'){
             steps{
@@ -47,6 +50,14 @@ pipeline {
                             }
                         }
                     }
+                stage('Push To Registry'){
+                    steps{
+                        script{
+                            sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                            sh 'docker push sarim04/juiceshop'
+                        }
+                    }
+                }
                 }
         }
 
