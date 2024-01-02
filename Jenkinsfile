@@ -14,7 +14,7 @@ pipeline {
                 stage('Snyk-Scan'){
                     steps{
                         script{
-                            snykSecurity failOnError: false, failOnIssues: false, organisation: 'sarim04', projectName: 'juice-shop', snykInstallation: 'Snyk-Community', snykTokenId: 'Snyk_Auth_Token', additionalArguments: 'json'
+                            snykSecurity failOnError: false, failOnIssues: false, organisation: 'sarim04', projectName: 'juice-shop', snykInstallation: 'Snyk-Community', snykTokenId: 'Snyk_Auth_Token', additionalArguments: '--json-file-output=dependecyCheck_results.json'
                             }
                         }    
                     }
