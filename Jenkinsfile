@@ -38,7 +38,7 @@ pipeline {
                 stage('SAST'){
                     steps{
                         script{
-                            sh 'sudo docker run --rm -it -e "SNYK_TOKEN=$SNYK_CREDENTIALS_PSW" -v "/home/sarim/test/JuiceShop:/project" -v "/home/sarim/test/JuiceShop:/app" snyk/snyk:alpine snyk code test --json --org=sarim04 >> snyk_results.json'
+                            sh 'docker run --rm -it -e "SNYK_TOKEN=$SNYK_CREDENTIALS_PSW" -v "/home/sarim/test/JuiceShop:/project" -v "/home/sarim/test/JuiceShop:/app" snyk/snyk:alpine snyk code test --json --org=sarim04 >> snyk_results.json'
                             }
                         }
                 }
