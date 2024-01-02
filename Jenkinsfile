@@ -61,5 +61,10 @@ pipeline {
                 }
             }
     }
+    post {
+        always {
+            archiveArtifacts artifacts: "*_results.json"
+        }
+    }
 
 }
