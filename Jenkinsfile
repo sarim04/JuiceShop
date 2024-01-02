@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
     DOCKERHUB_CREDENTIALS = credentials('DockerHub_PAT')
+    SNYK_CREDENTIALS = credentials('Snyk_Auth_Token')
       }
     stages {
         stage('Verify Branch'){
@@ -37,7 +38,7 @@ pipeline {
                 stage('SAST'){
                     steps{
                         script{
-                            sh 'echo "Running SAST Scan using Snyk Code"'
+                            sh 'sudo docker run --rm -it -e "SNYK_TOKEN=$SNYK_CREDENTIALS_PSW" -v "/home/sarim/test/JuiceShop:/project" -v "/home/sarim/test/JuiceShop:/app" snyk/snyk:alpine snyk code test --json --org=sarim04 >> snyk_results.json'
                             }
                         }
                 }
