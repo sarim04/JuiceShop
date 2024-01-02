@@ -14,7 +14,7 @@ pipeline {
                 stage('Snyk-Scan'){
                     steps{
                         script{
-                            snykSecurity failOnError: false, failOnIssues: false, organisation: 'sarim04', projectName: 'juice-shop', snykInstallation: 'Snyk-Community', snykTokenId: 'snyk-token'
+                            snykSecurity failOnError: false, failOnIssues: false, organisation: 'sarim04', projectName: 'juice-shop', snykInstallation: 'Snyk-Community', snykTokenId: 'Snyk_Auth_Token'
                             }
                         }    
                     }
