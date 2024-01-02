@@ -44,9 +44,9 @@ pipeline {
                 stage('Build'){
                     steps{
                         script{
-                            sh 'sudo docker images -a'
-                            sh 'sudo docker build -t sarim04/juiceshop .'
-                            sh 'sudo docker images -a'
+                            sh 'docker images -a'
+                            sh 'docker build -t sarim04/juiceshop .'
+                            sh 'docker images -a'
                             }
                         }
                     }
