@@ -66,6 +66,7 @@ pipeline {
     }
     post {
         always {
+            archiveArtifacts artifacts: "dependecyCheck_results.json"
             archiveArtifacts artifacts: "trufflehog_output.json"
             archiveArtifacts artifacts: "snykcode_results.json"
         }
