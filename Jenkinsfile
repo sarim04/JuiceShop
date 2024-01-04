@@ -31,6 +31,7 @@ pipeline {
                        steps{
                             script{
                                 sh 'echo "Running Secret Scanning using Trufflehog"'
+                                sh 'trufflehog git file://. --regex --include-detectors="all" --json-legacy >> trufflehog_output.json'
                             }
                         }
                 }
@@ -38,7 +39,7 @@ pipeline {
                 stage('SAST'){
                     steps{
                         script{
-                            sh 'docker run --rm -it -e "SNYK_TOKEN=$SNYK_CREDENTIALS_PSW" -v "/home/sarim/test/JuiceShop:/project" -v "/home/sarim/test/JuiceShop:/app" snyk/snyk:alpine snyk code test --json --org=sarim04 >> snyk_results.json'
+                            sh 'docker run --rm -it -e "SNYK_TOKEN=$SNYK_CREDENTIALS_PSW" -v "/home/sarim/test/JuiceShop:/project" -v "/home/sarim/test/JuiceShop:/app" snyk/snyk:alpine snyk code test --json --org=sarim04 >> snykcode_results.json'
                             }
                         }
                 }
@@ -64,7 +65,8 @@ pipeline {
     }
     post {
         always {
-            archiveArtifacts artifacts: "*_results.json"
+            archiveArtifacts artifacts: "trufflehog_output.json"
+            archiveArtifacts artifacts: "snykcode_results.json"
         }
     }
 
