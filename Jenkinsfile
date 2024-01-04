@@ -40,7 +40,7 @@ pipeline {
                     steps{
                         script{
                             sh 'echo $PWD'
-                            sh 'docker run --rm -it -e "SNYK_TOKEN=$SNYK_CREDENTIALS_PSW" -v "../:/project" -v "$PWD:/app" snyk/snyk:alpine snyk code test --json --org=sarim04 >> snykcode_results.json'
+                            sh 'docker run --rm -i -e "SNYK_TOKEN=$SNYK_CREDENTIALS_PSW" -v "../:/project" -v "$PWD:/app" snyk/snyk:alpine snyk code test --json-output-file=snykcode_results.json --org=sarim04'
                             }
                         }
                 }
