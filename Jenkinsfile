@@ -69,7 +69,7 @@ pipeline {
                     }
                 }
             }
-    stage('SAST'){
+    stage('Container Scan'){
         steps{
             script{
                 try {
@@ -88,6 +88,7 @@ pipeline {
             archiveArtifacts artifacts: "dependecyCheck_results.json"
             archiveArtifacts artifacts: "trufflehog_output.json"
             archiveArtifacts artifacts: "snykcode_results.json"
+            archiveArtifacts artifacts: "container_vuln.json"
         }
     }
 
