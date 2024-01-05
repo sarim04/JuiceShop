@@ -47,9 +47,8 @@ pipeline {
                             catch (err){
                                 currentBuild.result = 'SUCCESS'
                             }
-
-                            }
                         }
+                    }
                 }
                 stage('Build'){
                     steps{
@@ -70,6 +69,19 @@ pipeline {
                     }
                 }
             }
+    stage('SAST'){
+        steps{
+            script{
+                try {
+                    sh 'echo $PWD'
+                        sh 'docker run --rm -it -e "SNYK_TOKEN=df7e7cbf-ea82-4e1e-88ee-a45b071d70cd" -v "$PWD:/app" snyk/snyk:alpine snyk container test --username=$DOCKERHUB_CREDENTIALS_USR --password=$DOCKERHUB_CREDENTIALS_PSW --json-file-output=container_vuln.json --app-vulns sarim04/juiceshop:latest --org=sarim04'
+                }
+                catch (err){
+                    currentBuild.result = 'SUCCESS'
+                    }
+                }
+            }
+        }
     }
     post {
         always {
