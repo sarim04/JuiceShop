@@ -66,7 +66,7 @@ pipeline {
             script{
                 try {
                     sh 'echo $PWD'
-                        sh 'docker run --rm -i -e "SNYK_TOKEN=$SNYK_CREDENTIALS"-v "/var/lib/jenkins/workspace/:/app" snyk/snyk:alpine snyk container test --username=$DOCKERHUB_CREDENTIALS_USR --password=$DOCKERHUB_CREDENTIALS_PSW --json-file-output=container_vuln.json --app-vulns sarim04/juiceshop:latest --org=sarim04'
+                        sh 'docker run --rm -i -e "SNYK_TOKEN=$SNYK_CREDENTIALS" -v "/var/lib/jenkins/workspace/:/app" snyk/snyk:alpine snyk container test --username=$DOCKERHUB_CREDENTIALS_USR --password=$DOCKERHUB_CREDENTIALS_PSW --json-file-output=container_vuln.json --app-vulns sarim04/juiceshop:latest --org=sarim04'
                 }
                 catch (err){
                     currentBuild.result = 'SUCCESS'
