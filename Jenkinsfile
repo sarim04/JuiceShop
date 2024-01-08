@@ -20,14 +20,6 @@ pipeline {
                             }
                         }    
                     }
-                stage('Lint'){                    
-                    steps{
-                        script{
-                            sh 'echo "Linting the code with Hadolint"'
-                            }
-                        }
-                }
-                
                 stage('Secret Scanning'){
                        steps{
                             script{
