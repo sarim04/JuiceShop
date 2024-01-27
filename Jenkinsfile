@@ -24,7 +24,7 @@ pipeline {
                        steps{
                             script{
                                 sh 'echo "Running Secret Scanning using Trufflehog"'
-                                sh 'trufflehog git file://. --regex --include-detectors="all" --no-update --json-legacy >> trufflehog_output.json'
+                                sh 'docker run --rm -i -v "/var/lib/jenkins/workspace/:/repo" trufflesecurity/trufflehog:latest git file:///repo/devsecops_demo --no-update --regex --concurrency=2 --regex --include-detectors="all" --json-legacy >> trufflehog_output.json'
                             }
                         }
                 }
