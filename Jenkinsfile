@@ -16,7 +16,7 @@ pipeline {
                     steps{
                         script{
                             sh 'npm install'
-                            snykSecurity failOnError: false, failOnIssues: false, organisation: 'sarim04', projectName: 'juice-shop', snykInstallation: 'snyk-community', snykTokenId: 'snyk_token', additionalArguments: '--json-file-output=dependecyCheck_results.json'
+                            snykSecurity failOnError: false, failOnIssues: false, monitorProjectOnBuild: false, organisation: 'sarim04', projectName: 'juice-shop', snykInstallation: 'snyk-community', snykTokenId: 'snyk_token', additionalArguments: '--json-file-output=dependecyCheck_results.json'
                             }
                         }    
                     }
