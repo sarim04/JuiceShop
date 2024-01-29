@@ -14,7 +14,7 @@ pipeline {
             steps{
                 script{
                     sh 'echo "Running Secret Scanning using Trufflehog"'
-                    sh 'trufflehog git file://. --no-update --entropy --regex --concurrency=2 --include-detectors="all" --json-legacy > trufflehog_output.json'
+                    sh 'trufflehog git file://. --no-update --entropy --regex --concurrency=2 --include-detectors="all" --json-legacy 2>&1 | tee trufflehog_output.json'
                         }
                     }
                 }
