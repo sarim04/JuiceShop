@@ -86,8 +86,8 @@ pipeline {
         always {
             archiveArtifacts artifacts: "dependencyCheck_results.json"
             archiveArtifacts artifacts: "trufflehog_results.json"
-            archiveArtifacts artifacts: "snykCode_results.json"
-            archiveArtifacts artifacts: "snykContainer_results.json" 
+            archiveArtifacts artifacts: "JuiceShop/snykCode_results.json"
+            archiveArtifacts artifacts: "JuiceShop/snykContainer_results.json" 
         }
     }
 
