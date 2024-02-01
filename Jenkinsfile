@@ -1,5 +1,16 @@
 pipeline {
     agent any
+    options { 
+        skipDefaultCheckout() 
+    }
+    stage('Clone Repo'){
+            steps{
+                script{
+                    sh 'rm -rf JuiceShop'
+                    sh 'git clone https://github.com/sarim04/JuiceShop.git'
+                }
+            }
+        }
     stages {
         stage('Secret Scanning'){
             steps{
