@@ -7,8 +7,8 @@ pipeline {
         stage('Clone Repo'){
             steps{
                 script{
-                    sh 'rm -rf JuiceShop'
-                    sh 'git clone https://github.com/sarim04/JuiceShop.git'
+                    checkout scm
+                    sh 'ls'
                 }
             }
         }
