@@ -14,7 +14,8 @@ pipeline {
             steps{
                 script{
                     sh 'set +x'
-                    sh 'trufflehog git file://. --no-update --entropy --regex --concurrency=2 --include-detectors="all" --json-legacy > trufflehog_results.json' 
+                    sh 'docker run --rm -i -v "$PWD:/repo" trufflesecurity/trufflehog:latest git file:///repo/JuiceShop --no-update --entropy --regex --concurrency=2 --include-detectors="all" --json-legacy > trufflehog_results.json' 
+                    sh 'cat trufflehog_results.json'
                         }
                     }
                 }
