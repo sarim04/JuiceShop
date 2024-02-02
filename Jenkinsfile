@@ -97,6 +97,7 @@ pipeline {
                 }
             }
         }
+    }
     
     post {
         always {
@@ -107,5 +108,4 @@ pipeline {
             archiveArtifacts artifacts: "zap_results.xml" 
          }
     }
-}
 }
