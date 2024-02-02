@@ -84,10 +84,10 @@ pipeline {
     
     post {
         always {
-            archiveArtifacts artifacts: "dependencyCheck_results.json"
+            archiveArtifacts artifacts: "dependencyCheck_results.sarif"
             archiveArtifacts artifacts: "trufflehog_results.json"
-            archiveArtifacts artifacts: "JuiceShop/snykCode_results.json"
-            archiveArtifacts artifacts: "JuiceShop/snykContainer_results.json" 
+            archiveArtifacts artifacts: "JuiceShop/snykCode_results.sarif"
+            archiveArtifacts artifacts: "JuiceShop/snykContainer_results.sarif" 
         }
     }
 
