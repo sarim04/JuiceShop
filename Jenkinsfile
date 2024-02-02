@@ -21,12 +21,12 @@ pipeline {
                 stage('Secret Scanning'){
                     steps{
                         script{
-                            sh 'set +x'
-                            sh 'trufflehog git file://JuiceShop --no-update --entropy --regex --concurrency=2 --include-detectors="all" --json-legacy > trufflehog_results.json' 
-                            sh 'cat trufflehog_results.json'
+                        sh 'set +x'
+                        sh 'trufflehog git file://. --no-update --entropy --regex --concurrency=2 --include-detectors="all" --json-legacy > trufflehog_results.json' 
+                        sh 'cat trufflehog_results.json'
+                            }
                         }
                     }
-                }
                 stage('Snyk-Scan'){
                     steps{
                         script{
@@ -40,7 +40,7 @@ pipeline {
                         script{
                             try {
                                 sh 'echo $PWD'
-                                sh 'docker run --rm -i -e "SNYK_TOKEN=$SNYK_CREDENTIALS" -v "$PWD:/project" -v "$PWD/JuiceShop:/app" snyk/snyk:alpine snyk code test --sarif-file-output=snykCode_results.sarif --org=sarim04'
+                                sh 'docker run --rm -i -e "SNYK_TOKEN=$SNYK_CREDENTIALS" -v "$PWD:/project" -v "$PWD:/app" snyk/snyk:alpine snyk code test --sarif-file-output=snykCode_results.sarif --org=sarim04'
                             }
                             catch (err){
                                 currentBuild.result = 'SUCCESS'
@@ -48,7 +48,6 @@ pipeline {
                         }
                     }
                 }
-            }
                 stage('Build'){
                     steps{
                         script{
@@ -59,7 +58,7 @@ pipeline {
                         }
                     }
                 }
-            }
+        }
         stage('Push'){
             steps{
                 script{
@@ -101,10 +100,10 @@ pipeline {
     
     post {
         always {
-            archiveArtifacts artifacts: "dependencyCheck_results.json"
+            archiveArtifacts artifacts: "dependencyCheck_results.sarif"
             archiveArtifacts artifacts: "trufflehog_results.json"
-            archiveArtifacts artifacts: "JuiceShop/snykCode_results.json"
-            archiveArtifacts artifacts: "JuiceShop/snykContainer_results.json"
+            archiveArtifacts artifacts: "JuiceShop/snykCode_results.sarif"
+            archiveArtifacts artifacts: "JuiceShop/snykContainer_results.sarif"
             archiveArtifacts artifacts: "zap_results.xml" 
         }
     }
