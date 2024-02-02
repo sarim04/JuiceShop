@@ -22,7 +22,7 @@ pipeline {
             steps{
                 script{
                     sh 'set +x'
-                    sh 'docker run --rm -i -v "$PWD:/repo" trufflesecurity/trufflehog:latest git file:///repo/JuiceShop --no-update --entropy --regex --concurrency=2 --include-detectors="all" --json-legacy > trufflehog_results.json' 
+                    sh 'docker run --rm -i -v "$PWD:/repo" trufflesecurity/trufflehog:latest git file:///repo/testStep --no-update --entropy --regex --concurrency=2 --include-detectors="all" --json-legacy > trufflehog_results.json' 
                     sh 'cat trufflehog_results.json'
                 }
             }
@@ -42,7 +42,7 @@ pipeline {
                         script{
                             try {
                                 sh 'echo $PWD'
-                                sh 'docker run --rm -i -e "SNYK_TOKEN=$SNYK_CREDENTIALS" -v "$PWD:/project" -v "$PWD/JuiceShop:/app" snyk/snyk:alpine snyk code test --sarif-file-output=snykCode_results.sarif --org=sarim04'
+                                sh 'docker run --rm -i -e "SNYK_TOKEN=$SNYK_CREDENTIALS" -v "$PWD:/project" -v "$PWD/testStep:/app" snyk/snyk:alpine snyk code test --sarif-file-output=snykCode_results.sarif --org=sarim04'
                             }
                             catch (err){
                                 currentBuild.result = 'SUCCESS'
@@ -74,7 +74,7 @@ pipeline {
                 script{
                     try {
                         sh 'cd /var/lib/jenkins/workspace/'
-                        sh 'docker run --rm -i -e "SNYK_TOKEN=$SNYK_CREDENTIALS" -v "$PWD/JuiceShop:/app" snyk/snyk:alpine snyk container test --username=$DOCKERHUB_CREDENTIALS_USR --password=$DOCKERHUB_CREDENTIALS_PSW --sarif-file-output=snykContainer_results.sarif --app-vulns sarim04/juiceshop:latest --org=sarim04'
+                        sh 'docker run --rm -i -e "SNYK_TOKEN=$SNYK_CREDENTIALS" -v "$PWD/testStep:/app" snyk/snyk:alpine snyk container test --username=$DOCKERHUB_CREDENTIALS_USR --password=$DOCKERHUB_CREDENTIALS_PSW --sarif-file-output=snykContainer_results.sarif --app-vulns sarim04/juiceshop:latest --org=sarim04'
                     }
                     catch (err){
                         currentBuild.result = 'SUCCESS'
