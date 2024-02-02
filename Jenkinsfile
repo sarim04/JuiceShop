@@ -90,6 +90,13 @@ pipeline {
                 }
             }
         }
+        stage('dast scan'){
+            steps{
+                script{
+                    sh 'docker run -v $(pwd):/zap/wrk/:rw -t ghcr.io/zaproxy/zaproxy:stable zap-baseline.py -t http://192.168.15.139:3000/ -x zap_results.xml'
+                }
+            }
+        }
     }
     
     post {
@@ -97,7 +104,8 @@ pipeline {
             archiveArtifacts artifacts: "dependencyCheck_results.json"
             archiveArtifacts artifacts: "trufflehog_results.json"
             archiveArtifacts artifacts: "JuiceShop/snykCode_results.json"
-            archiveArtifacts artifacts: "JuiceShop/snykContainer_results.json" 
+            archiveArtifacts artifacts: "JuiceShop/snykContainer_results.json"
+            archiveArtifacts artifacts: "zap_results.xml" 
         }
     }
 
