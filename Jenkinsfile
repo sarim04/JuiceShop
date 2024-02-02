@@ -105,7 +105,7 @@ pipeline {
             archiveArtifacts artifacts: "JuiceShop/snykCode_results.sarif"
             archiveArtifacts artifacts: "JuiceShop/snykContainer_results.sarif"
             archiveArtifacts artifacts: "zap_results.xml" 
-        }
+         }
     }
-
+}
 }
