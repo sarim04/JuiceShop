@@ -86,7 +86,7 @@ pipeline {
             }
             steps{
                 script{
-                    sh 'docker run -p '0.0.0.0:80:3000' sarim04/juiceshop:latest'
+                    sh 'docker run --network host sarim04/juiceshop:latest'
                 }
             }
         }
