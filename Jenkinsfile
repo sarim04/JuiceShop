@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        label 'test-server'
-    }
+    agent any
     options { 
         skipDefaultCheckout() 
     }
@@ -22,7 +20,7 @@ pipeline {
             steps{
                 script{
                     sh 'set +x'
-                    sh 'docker run --rm -i -v "$PWD:/repo" trufflesecurity/trufflehog:latest git file:///repo --no-update --entropy --regex --concurrency=2 --include-detectors="all" --json-legacy > trufflehog_results.json' 
+                    sh 'trufflehog git file://JuiceShop --no-update --entropy --regex --concurrency=2 --include-detectors="all" --json-legacy > trufflehog_results.json' 
                     sh 'cat trufflehog_results.json'
                 }
             }
@@ -33,7 +31,7 @@ pipeline {
                     steps{
                         script{
                             sh 'npm install'
-                            snykSecurity failOnError: false, failOnIssues: false, monitorProjectOnBuild: false, organisation: 'sarim04', projectName: 'juice-shop', snykInstallation: 'snyk-community', snykTokenId: 'snyk_token', additionalArguments: '--sarif-file-output=dependencyCheck_results.sarif'
+                            snykSecurity failOnError: false, failOnIssues: false, monitorProjectOnBuild: false, organisation: 'sarim04', projectName: 'juice-shop', snykInstallation: 'snyk-community', snykTokenId: 'snyk_token', additionalArguments: '--json-file-output=dependencyCheck_results.json'
                             }
                         }    
                     }                
@@ -42,7 +40,7 @@ pipeline {
                         script{
                             try {
                                 sh 'echo $PWD'
-                                sh 'docker run --rm -i -e "SNYK_TOKEN=$SNYK_CREDENTIALS" -v "$PWD:/project" -v "$PWD:/app" snyk/snyk:alpine snyk code test --sarif-file-output=snykCode_results.sarif --org=sarim04'
+                                sh 'docker run --rm -i -e "SNYK_TOKEN=$SNYK_CREDENTIALS" -v "$PWD:/project" -v "$PWD/JuiceShop:/app" snyk/snyk:alpine snyk code test --json-file-output=snykCode_results.json --org=sarim04'
                             }
                             catch (err){
                                 currentBuild.result = 'SUCCESS'
@@ -74,7 +72,7 @@ pipeline {
                 script{
                     try {
                         sh 'cd /var/lib/jenkins/workspace/'
-                        sh 'docker run --rm -i -e "SNYK_TOKEN=$SNYK_CREDENTIALS" -v "$PWD:/app" snyk/snyk:alpine snyk container test --username=$DOCKERHUB_CREDENTIALS_USR --password=$DOCKERHUB_CREDENTIALS_PSW --sarif-file-output=snykContainer_results.sarif --app-vulns sarim04/juiceshop:latest --org=sarim04'
+                        sh 'docker run --rm -i -e "SNYK_TOKEN=$SNYK_CREDENTIALS" -v "$PWD/JuiceShop:/app" snyk/snyk:alpine snyk container test --username=$DOCKERHUB_CREDENTIALS_USR --password=$DOCKERHUB_CREDENTIALS_PSW --json-file-output=snykContainer_results.json --app-vulns sarim04/juiceshop:latest --org=sarim04'
                     }
                     catch (err){
                         currentBuild.result = 'SUCCESS'
@@ -86,10 +84,10 @@ pipeline {
     
     post {
         always {
-            archiveArtifacts artifacts: "dependencyCheck_results.sarif"
+            archiveArtifacts artifacts: "dependencyCheck_results.json"
             archiveArtifacts artifacts: "trufflehog_results.json"
-            archiveArtifacts artifacts: "JuiceShop/snykCode_results.sarif"
-            archiveArtifacts artifacts: "JuiceShop/snykContainer_results.sarif" 
+            archiveArtifacts artifacts: "JuiceShop/snykCode_results.json"
+            archiveArtifacts artifacts: "JuiceShop/snykContainer_results.json" 
         }
     }
 
