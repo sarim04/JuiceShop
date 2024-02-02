@@ -16,17 +16,17 @@ pipeline {
                 }
             }
         }
-        stage('Secret Scanning'){
-            steps{
-                script{
-                    sh 'set +x'
-                    sh 'trufflehog git file://JuiceShop --no-update --entropy --regex --concurrency=2 --include-detectors="all" --json-legacy > trufflehog_results.json' 
-                    sh 'cat trufflehog_results.json'
-                }
-            }
-        }
         stage('Test and Build'){
             parallel{
+                stage('Secret Scanning'){
+                    steps{
+                        script{
+                            sh 'set +x'
+                            sh 'trufflehog git file://JuiceShop --no-update --entropy --regex --concurrency=2 --include-detectors="all" --json-legacy > trufflehog_results.json' 
+                            sh 'cat trufflehog_results.json'
+                        }
+                    }
+                }
                 stage('Snyk-Scan'){
                     steps{
                         script{
