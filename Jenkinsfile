@@ -80,6 +80,16 @@ pipeline {
                 }
             }
         }
+        stage('deploy'){
+            agent {
+                label 'test-server'
+            }
+            steps{
+                script{
+                    sh 'docker run -p '0.0.0.0:80:3000' sarim04/juiceshop:latest'
+                }
+            }
+        }
     }
     
     post {
