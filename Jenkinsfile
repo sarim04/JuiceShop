@@ -95,7 +95,7 @@ pipeline {
             steps{
                 script{
                     try{
-                        sh 'docker run -v "$(pwd):/zap/wrk/" -t ghcr.io/zaproxy/zaproxy:stable zap-full-scan.py -t http://192.168.15.139:3000/ -x zap_results.xml'
+                        sh 'docker run -v "$(pwd):/zap/wrk/:rw" -i ghcr.io/zaproxy/zaproxy:stable zap-full-scan.py -t http://192.168.15.139:3000/ -x zap_results.xml'
                     }
                     catch (err){
                         currentBuild.result = 'SUCCESS'
