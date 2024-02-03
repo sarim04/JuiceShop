@@ -22,7 +22,7 @@ pipeline {
                     steps{
                         script{
                         sh 'set +x'
-                        sh 'trufflehog git file://. --no-update --entropy --regex --concurrency=2 --include-detectors="all" --json-legacy > trufflehog_results.json' 
+                        sh 'trufflehog git file://JuiceShop --no-update --entropy --regex --concurrency=2 --include-detectors="all" --json-legacy > trufflehog_results.json' 
                         sh 'cat trufflehog_results.json'
                             }
                         }
@@ -94,7 +94,7 @@ pipeline {
             steps{
                 script{
                     try{
-                        sh 'docker run -v $(pwd):/zap/wrk/:rw -t ghcr.io/zaproxy/zaproxy:stable zap-baseline.py -t http://192.168.15.139:3000/ -x zap_results.xml'
+                        sh 'docker run -v $(pwd):/zap/wrk/:rw -t ghcr.io/zaproxy/zaproxy:stable zap-full-scan.py -t http://192.168.15.139:3000/ -x zap_results.xml'
                     }
                     catch (err){
                         currentBuild.result = 'SUCCESS'
