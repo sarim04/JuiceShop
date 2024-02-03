@@ -12,6 +12,7 @@ pipeline {
             steps{
                 script{
                     checkout scm
+                    sh 'pwd'
                     sh 'ls'
                 }
             }
