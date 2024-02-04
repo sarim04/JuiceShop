@@ -111,7 +111,6 @@ pipeline {
             archiveArtifacts artifacts: "trufflehog_results.json"
             archiveArtifacts artifacts: "JuiceShop/snykCode_results.sarif"
             archiveArtifacts artifacts: "JuiceShop/snykContainer_results.sarif"
-            archiveArtifacts artifacts: "zap_results.xml" 
          }
     }
 }
