@@ -10,9 +10,7 @@ pipeline {
     stages {
         stage('Clone Repo'){
             steps{
-                script{
-                    checkout scm
-                }
+                checkout scm
             }
         }
         stage('Test and Build'){
