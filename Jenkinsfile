@@ -10,7 +10,9 @@ pipeline {
     stages {
         stage('Clone Repo'){
             steps{
+                script{
                     checkout scm
+                }
             }
         }
         stage('Test and Build'){
@@ -18,9 +20,9 @@ pipeline {
                 stage('Secret Scanning'){
                     steps{
                         script{
-                        sh 'set +x'
-                        sh 'trufflehog git file://. --no-update --entropy --regex --concurrency=2 --include-detectors="all" --json-legacy > trufflehog_results.json' 
-                        sh 'cat trufflehog_results.json'
+                            sh 'set +x'
+                            sh 'trufflehog git file://. --no-update --entropy --regex --concurrency=2 --include-detectors="all" --json-legacy > trufflehog_results.json' 
+                            sh 'cat trufflehog_results.json'
                             }
                         }
                     }
