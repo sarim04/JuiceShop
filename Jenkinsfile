@@ -8,6 +8,11 @@ pipeline {
         SNYK_CREDENTIALS = credentials('Snyk_Auth_Token')
       }
     stages {
+        stage('Verify Branch'){
+            steps{
+                echo "$GIT_BRANCH"
+            }
+        }
         stage('Clone Repo'){
             steps{
                 script{
