@@ -11,6 +11,7 @@ pipeline {
         stage('Clone Repo'){
             steps{
                 script{
+                    sh 'rm -rf *'
                     checkout scm
                     sh 'ls'
                     sh 'pwd'
