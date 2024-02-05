@@ -14,7 +14,9 @@ pipeline {
             }
         }
         stage('Validate Branch'){
-            echo '$GIT_BRANCH'
+            steps{
+                echo '$GIT_BRANCH'
+            }
         }
         stage('Secret Scanning'){
             steps{
