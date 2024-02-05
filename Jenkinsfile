@@ -13,10 +13,13 @@ pipeline {
                 checkout scm
             }
         }
+        stage('Validate Branch'){
+            echo '$GIT_BRANCH'
+        }
         stage('Secret Scanning'){
             steps{
                 script{
-                    sh 'set +xe'
+                    sh 'set +x'
                     sh 'trufflehog git file://. --no-update --entropy --regex --concurrency=2 --include-detectors="all" --json-legacy > trufflehog_results.json 2>&1' 
                     sh 'cat trufflehog_results.json'
                     }
