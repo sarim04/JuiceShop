@@ -23,7 +23,7 @@ pipeline {
                     steps{
                         script{
                             sh 'set +x'
-                            sh 'trufflehog git file://. --no-update --entropy --regex --concurrency=2 --include-detectors="all" --json-legacy > trufflehog_results.json' 
+                            sh 'trufflehog git file://../testStep --no-update --entropy --regex --concurrency=2 --include-detectors="all" --json-legacy > trufflehog_results.json' 
                             sh 'cat trufflehog_results.json'
                             }
                         }
